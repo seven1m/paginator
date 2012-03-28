@@ -1,11 +1,11 @@
 {
-    "name": "node-mongo-paginator"
+    "name": "paginator"
   , "version": "0.1.0"
   , "author": "Tim Morgan <tim@timmorgan.org>"
-  , "description": "simple class for helping with pagination of MongoDB records"
+  , "description": "simple class for helping with pagination"
   , "repository": {
       "type": "git"
-    , "url": "https://github.com/seven1m/node-mongo-paginator.io.git"
+    , "url": "https://github.com/seven1m/paginator.git"
   }
   , "main": "lib/paginator"
   , "license": "MIT"
@@ -13,7 +13,6 @@
       "node": "*"
   }
   , "dependencies": {
-      "underscore": "latest"
   }
   , "devDependencies": {
       "jasmine-node": "latest"

@@ -1,4 +1,4 @@
-# Node Mongo Paginator
+# Paginator.coffee
 
 This is an uber simple class for helping with pagination. No magic, just works.
 
@@ -7,16 +7,20 @@ This is an uber simple class for helping with pagination. No magic, just works.
 If you're using [Mongoose](http://mongoosejs.com/):
 
 ```coffeescript
-Paginator = require('node-mongo-paginator')
+Paginator = require('paginator')
+_ = require('underscore')
 
 app.get '/', (req, res) ->
   query = Widget.where()
-  new Paginator perPage: 10, page: req.query.page, query: query, (paginator) ->
+  _.clone(query).count (err, count) ->
+    paginator = new Paginator perPage: 10, page: req.query.page, count: count
     query.skip(paginator.skip).limit(paginator.limit).run (err, widgets) ->
       res.render 'index.jade',
         widgets: widgets
         paginator: paginator
 ```
+
+*It seems with Mongoose you have to `clone` the query object for the `count`, otherwise it will be unusable for the subsequent query.*
 
 ## View Helper
 

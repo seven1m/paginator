@@ -10,52 +10,27 @@ describe 'Paginator', ->
       count: jasmine.createSpy('count').andCallFake (cb) ->
         cb(null, 100)
 
-  it 'passes a new Paginator object to the callback', ->
-    runs ->
-      new Paginator perPage: 10, page: null, query: query, (p) ->
-        paginator = p
-    waitsFor (-> paginator)
-    runs ->
-      expect(paginator instanceof Paginator).toBeTruthy()
+  it 'stores the count', ->
+    paginator = new Paginator perPage: 10, page: null, count: 100
+    expect(paginator.count).toEqual(100)
 
-  it 'queries for the total', ->
-    runs ->
-      new Paginator perPage: 10, page: null, query: query, (p) ->
-        paginator = p
-    waitsFor (-> paginator)
-    runs ->
-      expect(query.count).toHaveBeenCalled()
-      expect(paginator.total).toEqual(100)
-
-  describe 'given pperPage=10 and age=null', ->
+  describe 'given perPage=10 and page=null', ->
     beforeEach ->
-      runs ->
-        new Paginator perPage: 10, page: null, query: query, (p) ->
-          paginator = p
-      waitsFor (-> paginator)
+      paginator = new Paginator perPage: 10, page: null, count: 100
 
     it 'sets skip=0', ->
-      runs ->
-        expect(paginator.skip).toEqual(0)
+      expect(paginator.skip).toEqual(0)
 
   describe 'given perPage=10 and page=0', ->
     beforeEach ->
-      runs ->
-        new Paginator perPage: 10, page: '0', query: query, (p) ->
-          paginator = p
-      waitsFor (-> paginator)
+      paginator = new Paginator perPage: 10, page: '0', count: 100
 
     it 'sets skip=0', ->
-      runs ->
-        expect(paginator.skip).toEqual(0)
+      expect(paginator.skip).toEqual(0)
 
   describe 'given perPage=10 and page=2', ->
     beforeEach ->
-      runs ->
-        new Paginator perPage: 10, page: 2, query: query, (p) ->
-          paginator = p
-      waitsFor (-> paginator)
+      paginator = new Paginator perPage: 10, page: 2, count: 100
 
     it 'sets skip=10', ->
-      runs ->
-        expect(paginator.skip).toEqual(10)
+      expect(paginator.skip).toEqual(10)

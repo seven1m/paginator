@@ -1,23 +1,15 @@
-_ = require 'underscore'
-
 class Paginator
 
-  constructor: (config, callback) ->
+  constructor: (config) ->
     @limit = @perPage = config.perPage
     @page = parseInt(config.page) || 1
     @skip = (@page - 1) * @perPage
-    @query = config.query
-    _.clone(@query).count (err, count) =>
-      if err
-        throw err
-      @total = count
-      callback(@)
-
-  window: 10
+    @count = config.count
+    @window = config.window || 10
 
   pageLinks: ->
-    pages = Math.floor(@total / @perPage)
-    unless @total % @perPage == 0
+    pages = Math.floor(@count / @perPage)
+    unless @count % @perPage == 0
       pages++
     if pages > 0
       start = Math.max(1, @page - @window/2)
