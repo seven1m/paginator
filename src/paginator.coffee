@@ -14,24 +14,26 @@ class Paginator
     @page = @pageCount if @page > @pageCount
     @skip = (@page - 1) * @perPage
 
-  pageLinks: ->
+  pageLinks: (args) ->
     if @pageCount > 0
       start = Math.max(1, @page - @window/2)
       stop = Math.min(@pageCount, start + @window)
-      links = (@pageLink(page) for page in [start..stop])
+      links = (@pageLink(page, args) for page in [start..stop])
       if start > 1
         links.unshift '...' if start > 2
-        links.unshift @pageLink(1)
+        links.unshift @pageLink(1, args)
       if stop < @pageCount
         links.push '...' if stop < @pageCount - 1
-        links.push @pageLink(@pageCount)
+        links.push @pageLink(@pageCount, args)
       "<span class='paginator-intro'>page:</span> #{links.join(' ')}"
 
-  pageLink: (page) ->
+  pageLink: (page, args) ->
+    args ||= {}
     if @page == page
       "<strong class='page-link'>#{page}</strong>"
     else
-      "<a class='page-link' href='?page=#{page}'>#{page}</a>"
+      url = "?page=#{page}&" + ("#{arg}=#{val}" for arg, val of args).join('&')
+      "<a class='page-link' href='#{url}'>#{page}</a>"
 
 
 module.exports = Paginator
